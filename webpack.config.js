@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // plugin para manejar css iportado en js
 
 module.exports = {
   entry: './src/index.js',
@@ -25,6 +26,14 @@ module.exports = {
         use: [
           { loader: 'html-loader' }
         ]
+      },
+      { // carga de sass  y css
+        test: /\.s[ac]ss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -32,6 +41,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html'
+    }),// esta parte  transforma el sass en css
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
     })
   ],
   devServer: {  // dev server activo para la carpeta  resultante dist
