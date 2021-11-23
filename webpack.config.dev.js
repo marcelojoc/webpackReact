@@ -1,25 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // plugin para manejar css iportado en js
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');  // para minimizar el css
-const TerserPlugin = require('terser-webpack-plugin');  // para hashear los contenidos
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: "/",
   },
-  
+  mode:'development',  // puedo colocar en modo desarrollo 
   resolve: {
-    extensions: ['.js', '.jsx'],
-    alias: { // alias para las  rutas 
-      '@components': path.resolve(__dirname, 'src/components/'),
-      '@styles': path.resolve(__dirname, 'src/styles/')
-    }
+    extensions: ['.js', '.jsx']
   },
   module: {
     rules: [
@@ -53,8 +44,7 @@ module.exports = {
     }),// esta parte  transforma el sass en css
     new MiniCssExtractPlugin({
       filename: '[name].css'
-    }),
-    new CleanWebpackPlugin(), // limpieza del directorio de publicacion
+    })
   ],
   devServer: {  // dev server activo para la carpeta  resultante dist
     
@@ -64,13 +54,5 @@ module.exports = {
     compress: true,
     port: 3006,
   },
-
-  optimization: {  // optimizo el css
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new TerserPlugin(),
-    ]
-  }
 
 }
